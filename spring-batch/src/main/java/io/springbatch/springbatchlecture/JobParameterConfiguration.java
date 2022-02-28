@@ -12,34 +12,33 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class JobConfiguration {
+public class JobParameterConfiguration {
 
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job thirdJob() {
-    return jobBuilderFactory.get("thirdJob")
-//            .preventRestart()
-            .start(thirdStep1())
-            .next(thirdStep2())
+  public Job Job() {
+    return jobBuilderFactory.get("Job")
+            .start(Step1())
+            .next(Step2())
             .build();
   }
 
   @Bean
-  public Step thirdStep1() {
-    return stepBuilderFactory.get("third_step1")
+  public Step Step1() {
+    return stepBuilderFactory.get("_step1")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("third app job step1");
+              System.out.println("step1 has executed");
               return RepeatStatus.FINISHED;
             }).build();
   }
 
   @Bean
-  public Step thirdStep2() {
-    return stepBuilderFactory.get("third_step2")
+  public Step Step2() {
+    return stepBuilderFactory.get("_step2")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("third app job step2");
+              System.out.println("step2 has executed");
               return RepeatStatus.FINISHED;
             }).build();
   }
