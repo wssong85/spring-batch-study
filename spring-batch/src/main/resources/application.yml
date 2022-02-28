@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: local
+#  batch:
+#    job:
+#      names: ${job.name:NONE} // --job.name=thirdJob
 
 ---
 spring:
@@ -30,3 +33,5 @@ spring:
   batch:
     jdbc:
       initialize-schema: never
+    job:
+      enabled: false

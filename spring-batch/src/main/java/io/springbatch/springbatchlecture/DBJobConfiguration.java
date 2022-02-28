@@ -20,15 +20,15 @@ public class DBJobConfiguration {
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job job() {
+  public Job dbJob() {
     return jobBuilderFactory.get("job")
-            .start(step1())
-            .next(step2())
+            .start(dbStep1())
+            .next(dbStep2())
             .build();
   }
 
   @Bean
-  public Step step1() {
+  public Step dbStep1() {
     return stepBuilderFactory.get("step1")
             .tasklet(new Tasklet() {
               @Override
@@ -41,7 +41,7 @@ public class DBJobConfiguration {
   }
 
   @Bean
-  public Step step2() {
+  public Step dbStep2() {
     return stepBuilderFactory.get("step2")
             .tasklet(new Tasklet() {
               @Override
