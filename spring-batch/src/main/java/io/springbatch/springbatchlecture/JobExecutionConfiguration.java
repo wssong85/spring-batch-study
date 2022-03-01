@@ -51,6 +51,8 @@ public class JobExecutionConfiguration {
     return stepBuilderFactory.get("step2")
             .tasklet((contribution, chunkContext) -> {
               System.out.println("step2 has executed");
+//              if (true)
+//              throw new RuntimeException("test1");
               return RepeatStatus.FINISHED;
             }).build();
   }
