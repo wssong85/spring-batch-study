@@ -22,8 +22,8 @@ public class JobExecutionConfiguration {
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job Job() {
-    return jobBuilderFactory.get("Job")
+  public Job testJob() {
+    return jobBuilderFactory.get("testJob")
             .start(Step1())
             .next(Step2())
             .build();
@@ -31,16 +31,15 @@ public class JobExecutionConfiguration {
 
   @Bean
   public Step Step1() {
-    return stepBuilderFactory.get("_step1")
+    return stepBuilderFactory.get("step1")
             .tasklet((contribution, chunkContext) -> {
 
-              JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
-              String name = jobParameters.getString("name");
-              Long seq = jobParameters.getLong("seq");
-              Date date = jobParameters.getDate("date");
-              Double age = jobParameters.getDouble("age");
-
-              Map<String, Object> parameters = chunkContext.getStepContext().getJobParameters();
+//              JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
+//              String name = jobParameters.getString("name");
+//              Long seq = jobParameters.getLong("seq");
+//              Date date = jobParameters.getDate("date");
+//              Double age = jobParameters.getDouble("age");
+//              Map<String, Object> parameters = chunkContext.getStepContext().getJobParameters();
 
               System.out.println("step1 has executed");
               return RepeatStatus.FINISHED;
@@ -49,7 +48,7 @@ public class JobExecutionConfiguration {
 
   @Bean
   public Step Step2() {
-    return stepBuilderFactory.get("_step2")
+    return stepBuilderFactory.get("step2")
             .tasklet((contribution, chunkContext) -> {
               System.out.println("step2 has executed");
               return RepeatStatus.FINISHED;
