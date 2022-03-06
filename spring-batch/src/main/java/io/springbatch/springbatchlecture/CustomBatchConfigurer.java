@@ -1,6 +1,5 @@
 package io.springbatch.springbatchlecture;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.boot.autoconfigure.batch.BasicBatchConfigurer;
