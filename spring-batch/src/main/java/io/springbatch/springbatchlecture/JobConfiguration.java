@@ -3,6 +3,7 @@ package io.springbatch.springbatchlecture;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -16,13 +17,14 @@ public class JobConfiguration {
 
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
+  private final JobExecutionListener jobRepositoryListener;
 
   @Bean
   public Job thirdJob() {
     return jobBuilderFactory.get("thirdJob")
-//            .preventRestart()
             .start(thirdStep1())
             .next(thirdStep2())
+            .listener(jobRepositoryListener)
             .build();
   }
 

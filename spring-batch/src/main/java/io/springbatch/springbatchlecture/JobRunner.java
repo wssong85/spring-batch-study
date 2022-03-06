@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Component
 //@RequiredArgsConstructor
@@ -29,7 +30,8 @@ public class JobRunner implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
     JobParameters jobParameters = new JobParametersBuilder()
-            .addString("reqDate", LocalDateTime.now().toString())
+//            .addString("requestDate", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
+            .addString("requestDate", LocalDateTime.now().toString())
             .toJobParameters();
 
     jobLauncher.run(job, jobParameters);
