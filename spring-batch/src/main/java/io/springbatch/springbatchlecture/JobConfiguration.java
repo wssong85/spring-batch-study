@@ -40,7 +40,7 @@ public class JobConfiguration {
   public Step step1() {
     return stepBuilderFactory.get("step1")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("step1");
+              System.out.println("step1 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
@@ -49,7 +49,7 @@ public class JobConfiguration {
   public Step step2() {
     return stepBuilderFactory.get("step2")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("step2");
+              System.out.println("step2 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
@@ -67,7 +67,7 @@ public class JobConfiguration {
   public Step step3() {
     return stepBuilderFactory.get("step3")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("step3");
+              System.out.println("step3 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
@@ -76,7 +76,7 @@ public class JobConfiguration {
   public Step step4() {
     return stepBuilderFactory.get("step4")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("step4");
+              System.out.println("step4 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
@@ -85,7 +85,7 @@ public class JobConfiguration {
   public Step step5() {
     return stepBuilderFactory.get("step5")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("step5");
+              System.out.println("step5 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
