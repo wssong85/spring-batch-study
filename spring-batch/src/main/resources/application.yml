@@ -34,4 +34,5 @@ spring:
     jdbc:
       initialize-schema: never
     job:
-      enabled: false
+      names: batchJob1
+#      enabled: false
