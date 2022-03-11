@@ -33,6 +33,7 @@ public class JobConfiguration {
     return stepBuilderFactory.get("third_step1")
             .tasklet((contribution, chunkContext) -> {
               System.out.println("third app job step1");
+              Thread.sleep(3000);
               return RepeatStatus.FINISHED;
             }).build();
   }
