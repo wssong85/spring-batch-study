@@ -32,6 +32,9 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   batch:
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
+      table-prefix: SYSTEM_
     job:
-      enabled: false
+#      enabled: false
+#      names: batchJob1
+      names: ${job.name:NONE}

@@ -18,28 +18,27 @@ public class JobConfiguration {
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job thirdJob() {
-    return jobBuilderFactory.get("thirdJob")
-//            .preventRestart()
-            .start(thirdStep1())
-            .next(thirdStep2())
+  public Job batchJob1() {
+    return jobBuilderFactory.get("batchJob1")
+            .start(step1())
+            .next(step2())
             .build();
   }
 
   @Bean
-  public Step thirdStep1() {
-    return stepBuilderFactory.get("third_step1")
+  public Step step1() {
+    return stepBuilderFactory.get("step1")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("third app job step1");
+              System.out.println("step1 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
 
   @Bean
-  public Step thirdStep2() {
-    return stepBuilderFactory.get("third_step2")
+  public Step step2() {
+    return stepBuilderFactory.get("step2")
             .tasklet((contribution, chunkContext) -> {
-              System.out.println("third app job step2");
+              System.out.println("step2 execute");
               return RepeatStatus.FINISHED;
             }).build();
   }
