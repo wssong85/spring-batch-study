@@ -20,22 +20,22 @@ import java.util.Locale;
 
 @Configuration
 @RequiredArgsConstructor
-public class JobConfiguration {
+public class JobConfiguration2 {
 
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job batchJob() {
-    return jobBuilderFactory.get("batchJob")
+  public Job batchJob2() {
+    return jobBuilderFactory.get("batchJob2")
             .incrementer(new RunIdIncrementer())
-//            .start(taskStep())
-            .start(checkStep())
+//            .start(taskStep2())
+            .start(checkStep2())
             .build();
   }
 
   @Bean
-  public Step taskStep() {
+  public Step taskStep2() {
     return stepBuilderFactory.get("taskStep")
             .tasklet((contribution, chunkContext) -> {
               System.out.println("step was executed");
@@ -44,14 +44,14 @@ public class JobConfiguration {
   }
 
   @Bean
-  public Step checkStep() {
+  public Step checkStep2() {
     return stepBuilderFactory.get("checkStep")
             .<String, String>chunk(10)
             .reader(new ListItemReader<>(Arrays.asList("item1", "item2", "item3", "item4", "item5")))
             .processor(new ItemProcessor<String, String>() {
               @Override
               public String process(String s) throws Exception {
-                return s.toUpperCase();
+                return s.toLowerCase();
               }
             })
             .writer(new ItemWriter<String>() {
