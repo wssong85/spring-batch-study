@@ -25,6 +25,7 @@ public class JobConfiguration {
             .next(step2())
 //            .validator(new CustomJobParametersValidator())
             .validator(new DefaultJobParametersValidator(new String[]{"name", "date"}, new String[]{"count"}))
+            .incrementer(new CustomerJobParametersIncrementer())
             .build();
   }
 
