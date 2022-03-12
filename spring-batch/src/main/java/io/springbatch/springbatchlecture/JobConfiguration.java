@@ -19,8 +19,8 @@ public class JobConfiguration {
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job batchJob1() {
-    return jobBuilderFactory.get("batchJob1")
+  public Job batchJob() {
+    return jobBuilderFactory.get("batchJob")
 //            .incrementer(new CustomerJobParametersIncrementer())
             .incrementer(new RunIdIncrementer())
             .start(step1())
