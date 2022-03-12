@@ -22,6 +22,7 @@ public class JobConfiguration {
     return jobBuilderFactory.get("batchJob1")
             .start(step1())
             .next(step2())
+            .incrementer(new CustomerJobParametersIncrementer())
             .build();
   }
 
