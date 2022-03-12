@@ -23,6 +23,7 @@ public class JobConfiguration {
     return jobBuilderFactory.get("batchJob1")
             .start(step1())
             .next(step2())
+            .preventRestart()
 //            .validator(new CustomJobParametersValidator())
             .validator(new DefaultJobParametersValidator(new String[]{"name", "date"}, new String[]{"count"}))
             .incrementer(new CustomerJobParametersIncrementer())
