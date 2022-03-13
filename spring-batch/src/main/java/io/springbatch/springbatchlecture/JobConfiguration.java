@@ -29,17 +29,15 @@ public class JobConfiguration {
     return jobBuilderFactory.get("batchJob")
             .incrementer(new RunIdIncrementer())
 //            .start(taskStep())
-            .start(chunkStep())
+//            .start(chunkStep())
+            .start(taskStep())
             .build();
   }
 
   @Bean
   public Step taskStep() {
     return stepBuilderFactory.get("taskStep")
-            .tasklet((contribution, chunkContext) -> {
-              System.out.println("step was executed");
-              return RepeatStatus.FINISHED;
-            }).build();
+            .tasklet(new CustomTasklet()).build();
   }
 
   @Bean
