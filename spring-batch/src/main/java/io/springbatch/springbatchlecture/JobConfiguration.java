@@ -26,7 +26,7 @@ public class JobConfiguration {
 
   @Bean
   public Job batchJob() {
-    return jobBuilderFactory.get("batchJob")
+    return jobBuilderFactory.get("batchJob-1")
             .incrementer(new RunIdIncrementer())
 //            .start(taskStep())
 //            .start(chunkStep())

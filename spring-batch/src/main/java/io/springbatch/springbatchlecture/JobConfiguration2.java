@@ -27,7 +27,7 @@ public class JobConfiguration2 {
 
   @Bean
   public Job batchJob2() {
-    return jobBuilderFactory.get("batchJob2")
+    return jobBuilderFactory.get("batchJob-2")
             .incrementer(new RunIdIncrementer())
 //            .start(taskStep2())
             .start(checkStep2())
