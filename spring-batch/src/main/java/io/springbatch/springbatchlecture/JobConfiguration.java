@@ -41,7 +41,7 @@ public class JobConfiguration {
   public Step step1() {
     return stepBuilderFactory.get(STEP_NAME + NUMBERING + "-1")
             .<String, String>chunk(5)
-            .reader(new ListItemReader<>(Arrays.asList("item1", "item2", "item3", "item4", "item5")))
+            .reader(new ListItemReader<>(Arrays.asList("item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10")))
             .processor(new ItemProcessor<String, String>() {
               @Override
               public String process(String s) throws Exception {
