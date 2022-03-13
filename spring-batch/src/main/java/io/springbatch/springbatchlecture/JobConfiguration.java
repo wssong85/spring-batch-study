@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 @Configuration
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class JobConfiguration {
     return jobBuilderFactory.get("batchJob")
             .incrementer(new RunIdIncrementer())
 //            .start(taskStep())
-            .start(checkStep())
+            .start(chunkStep())
             .build();
   }
 
@@ -44,8 +43,8 @@ public class JobConfiguration {
   }
 
   @Bean
-  public Step checkStep() {
-    return stepBuilderFactory.get("checkStep")
+  public Step chunkStep() {
+    return stepBuilderFactory.get("chunkStep")
             .<String, String>chunk(10)
             .reader(new ListItemReader<>(Arrays.asList("item1", "item2", "item3", "item4", "item5")))
             .processor(new ItemProcessor<String, String>() {
