@@ -22,10 +22,13 @@ import java.util.List;
 public class JobConfiguration {
 
   private final JobBuilderFactory jobBuilderFactory;
+
   private final StepBuilderFactory stepBuilderFactory;
 
   private final String JOB_NAME = "JOB-";
+
   private final String STEP_NAME = "STEP-";
+
   private final String NUMBERING = "1";
 
   @Bean(name = JOB_NAME + NUMBERING)
