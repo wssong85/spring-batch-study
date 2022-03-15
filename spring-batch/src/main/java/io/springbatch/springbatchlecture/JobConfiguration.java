@@ -43,7 +43,7 @@ public class JobConfiguration {
   @Bean(name = STEP_NAME + NUMBERING + "-1")
   public Step step1() {
     return stepBuilderFactory.get(STEP_NAME + NUMBERING + "-1")
-            .<String, String>chunk(5)
+            .<String, String>chunk(2)
             .reader(new ListItemReader<>(Arrays.asList("item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10")))
             .processor(new ItemProcessor<String, String>() {
               @Override
