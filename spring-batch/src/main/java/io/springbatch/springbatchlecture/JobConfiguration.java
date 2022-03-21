@@ -50,5 +50,4 @@ public class JobConfiguration {
             })
             .build();
   }
-
 }
