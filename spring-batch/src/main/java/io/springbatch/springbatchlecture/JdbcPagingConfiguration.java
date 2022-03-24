@@ -96,12 +96,13 @@ public class JdbcPagingConfiguration {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return object;
     }
 
     @Bean(name = "customerItemWriterByJdbcPaging")
     public ItemWriter<Customer> customerItemWriter() {
-        System.out.println("### writer ###");
+        System.out.println("### writer@@ ###");
         return items -> {
             for (Customer item : items) {
                 System.out.println("item = " + item.toString());
