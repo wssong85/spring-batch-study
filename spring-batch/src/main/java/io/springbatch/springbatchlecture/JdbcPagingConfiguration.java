@@ -6,25 +6,25 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaCursorItemReader;
-import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
-import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
+import org.springframework.batch.item.database.Order;
+import org.springframework.batch.item.database.PagingQueryProvider;
+import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
+import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-public class JpaCursorConfiguration {
-
-    private final EntityManagerFactory entityManagerFactory;
+public class JdbcPagingConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -32,9 +32,9 @@ public class JpaCursorConfiguration {
 
     private final String JOB_NAME = "JOB-";
     private final String STEP_NAME = "STEP-";
-    private final String NUMBERING = "3";
+    private final String NUMBERING = "4";
 
-    private int chuckSize = 5;
+    private int chuckSize = 10;
 
     @Bean(name = JOB_NAME + NUMBERING)
     public Job job() {
@@ -50,26 +50,58 @@ public class JpaCursorConfiguration {
         return stepBuilderFactory.get(STEP_NAME + NUMBERING + "-1")
                 .<Customer, Customer>chunk(chuckSize)
                 .reader(customerItemReader())
+                .processor(new ItemProcessor<Customer, Customer>() {
+                    @Override
+                    public Customer process(Customer customer) throws Exception {
+                        System.out.println("### process ###");
+                        return customer;
+                    }
+                })
                 .writer(customerItemWriter())
                 .build();
     }
 
-    @Bean(name = "customerItemReaderByJpa")
+    @Bean(name = "customerItemReaderByJdbcPaging")
     public ItemReader<Customer> customerItemReader() {
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("firstname", "A%");
+        parameters.put("firstName", "A%");
 
-        return new JpaCursorItemReaderBuilder<Customer>()
-                .name("jpaCursorItemReader")
-                .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from Customer c where firstName like :firstName")
+        return new JdbcPagingItemReaderBuilder<Customer>()
+                .name("jdbcPagingReader")
+                .pageSize(2)
+                .dataSource(dataSource)
+                .rowMapper(new BeanPropertyRowMapper<>(Customer.class))
+                .queryProvider(createQueryProvider())
                 .parameterValues(parameters)
                 .build();
     }
 
-    @Bean(name = "customerItemWriterByJpa")
+    @Bean
+    public PagingQueryProvider createQueryProvider() {
+        SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
+        queryProvider.setDataSource(dataSource);
+        queryProvider.setSelectClause("id, firstName, lastName, birthdate");
+        queryProvider.setFromClause("from customer");
+        queryProvider.setWhereClause("where firstName like :firstName");
+
+        Map<String, Order> sortKeys = new HashMap<>();
+        sortKeys.put("id", Order.ASCENDING);
+
+        queryProvider.setSortKeys(sortKeys);
+
+        PagingQueryProvider object = null;
+        try {
+            object = queryProvider.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    @Bean(name = "customerItemWriterByJdbcPaging")
     public ItemWriter<Customer> customerItemWriter() {
+        System.out.println("### writer ###");
         return items -> {
             for (Customer item : items) {
                 System.out.println("item = " + item.toString());
